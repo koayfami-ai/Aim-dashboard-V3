@@ -2531,8 +2531,7 @@ function renderPatientList(){
     });
 
 }
-
-          function loadPatient(patientId){
+function loadPatient(patientId){
 
     const database =
       JSON.parse(
@@ -2549,44 +2548,62 @@ function renderPatientList(){
         patient.rounds.length - 1
       ];
 
-    document.getElementById('pt-id').value =
-      patient.patientInfo.bed;
-
     document.getElementById('pt-name').value =
-      patient.patientInfo.name;
+      patient.patientInfo.name || '';
+
+    document.getElementById('pt-id').value =
+      patient.patientInfo.bed || '';
 
     document.getElementById('pt-age').value =
-      patient.patientInfo.age;
+      patient.patientInfo.age || '';
 
     document.getElementById('pt-weight').value =
-      patient.patientInfo.weight;
+      patient.patientInfo.weight || '';
 
     document.getElementById('pt-sex').value =
-      patient.patientInfo.sex;
+      patient.patientInfo.sex || '';
+
+    document.getElementById('physician-name').value =
+      latest.reviewer || '';
 
     document.getElementById('hr').value =
-      latest.monitoring.hr || '';
+      latest.monitoring?.hr || '';
 
     document.getElementById('rr').value =
-      latest.monitoring.rr || '';
+      latest.monitoring?.rr || '';
 
     document.getElementById('sbp').value =
-      latest.monitoring.sbp || '';
+      latest.monitoring?.sbp || '';
 
     document.getElementById('dbp').value =
-      latest.monitoring.dbp || '';
+      latest.monitoring?.dbp || '';
 
     document.getElementById('spo2').value =
-      latest.monitoring.spo2 || '';
+      latest.monitoring?.spo2 || '';
 
     document.getElementById('fio2').value =
-      latest.monitoring.fio2 || '';
+      latest.monitoring?.fio2 || '';
+
+    document.getElementById('problem-list').value =
+      latest.diagnosis?.problems || '';
+
+    document.getElementById('comorbid').value =
+      latest.diagnosis?.comorbids || '';
 
     calculateMonitoring();
+    calculateCrCl();
 
     showPatientHistory(patientId);
 
+    showToast(
+      `Loaded ${patientId}`,
+      'sky'
+    );
+
 }
+
+          
+
 function showPatientHistory(patientId){
 
     const database =
