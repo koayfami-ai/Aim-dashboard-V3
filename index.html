@@ -73,6 +73,15 @@ class="bg-emerald-700 hover:bg-emerald-600 text-white px-3 py-1.5 rounded-lg tex
   Save Ward Round
 
 </button>
+<button
+    onclick="clearCurrentPatient()"
+    class="bg-rose-700 hover:bg-rose-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold">
+
+    <i class="fa-solid fa-broom"></i>
+
+    Clear Patient
+
+</button>
 
           
           <!-- Export Button -->
@@ -2657,6 +2666,52 @@ function showPatientHistory(patientId){
         `;
 
     });
+
+}
+function clearCurrentPatient(){
+
+    document.getElementById('pt-name').value = '';
+    document.getElementById('pt-id').value = '';
+
+    document.getElementById('pt-weight').value = '';
+    document.getElementById('pt-age').value = '';
+
+    document.getElementById('problem-list').value = '';
+    document.getElementById('comorbid').value = '';
+
+    document.getElementById('physician-name').value = '';
+
+    document.getElementById('hr').value = '';
+    document.getElementById('rr').value = '';
+    document.getElementById('sbp').value = '';
+    document.getElementById('dbp').value = '';
+
+    document.getElementById('spo2').value = '';
+    document.getElementById('fio2').value = '';
+
+    document.getElementById('ph').value = '';
+    document.getElementById('pao2').value = '';
+    document.getElementById('paco2').value = '';
+    document.getElementById('hco3').value = '';
+    document.getElementById('be').value = '';
+
+    document.getElementById('pocus-impression').value = '';
+
+    activeDrugs = [];
+    activeMedications = [];
+
+    renderActiveDrugList();
+    renderMedications();
+
+    calculateMonitoring();
+
+    document.getElementById('patient-history').innerHTML =
+        '<p class="text-xs text-slate-400">No patient selected</p>';
+
+    showToast(
+      'Current patient cleared',
+      'rose'
+    );
 
 }
 
