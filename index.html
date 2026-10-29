@@ -281,6 +281,15 @@ PDF
           </div>
         </div>
       </div>
+<div class="bg-slate-800 rounded-xl border border-slate-700 p-4">
+
+  <h3 class="text-sm font-bold text-sky-400 mb-3">
+    Current Patients
+  </h3>
+
+  <div id="patient-list"></div>
+
+</div>
 
 <!-- CARD 2 : RESPIRATORY & HAEMODYNAMIC MONITORING -->
 
@@ -1203,6 +1212,7 @@ function loadJsPDF(){
 }
 
     
+
     // MEDICATION DATABASE AND CLINICAL DOSING RULES
     const DRUGS = {
       noradrenaline: {
@@ -2148,6 +2158,7 @@ function renderMedications(){
 
 function getSummaryData(){
 
+
   const drugKey = document.getElementById('drug-select').value;
   const drug = DRUGS[drugKey];
 
@@ -2221,6 +2232,9 @@ function getSummaryData(){
 
       impression: document.getElementById('pocus-impression').value
     },
+    
+reviewer :
+    document.getElementById('physician-name').value,
 
     activeDrugs,
     activeMedications,
@@ -2333,15 +2347,88 @@ ${medicationSummary}
 `;
   
 }
-    
-   
-function saveCalculation() {
-      const data = getSummaryData();
-      const savedList = JSON.parse(localStorage.getItem('cc_infusion_saved') || '[]');
-      savedList.unshift(data);
-      localStorage.setItem('cc_infusion_saved', JSON.stringify(savedList));
-      showToast('Calculation saved locally successfully!', 'emerald');
+function saveCalculation(){
+
+    const data = getSummaryData();
+
+    const patientId =
+        data.patient.bed ||
+        data.patient.name;
+
+    let database =
+        JSON.parse(
+            localStorage.getItem('icuPatients') || '{}'
+        );
+
+    if(!database[patientId]){
+
+        database[patientId] = {
+
+            patientInfo : {
+
+                name : data.patient.name,
+                bed : data.patient.bed,
+                age : data.patient.age,
+                sex : data.patient.sex,
+                weight : data.patient.weight
+
+            },
+
+            rounds : []
+
+        };
+
     }
+
+    database[patientId].patientInfo = {
+
+        name : data.patient.name,
+        bed : data.patient.bed,
+        age : data.patient.age,
+        sex : data.patient.sex,
+        weight : data.patient.weight
+
+    };
+
+    database[patientId].rounds.push({
+
+        timestamp : data.timestamp,
+
+        reviewer : data.reviewer || '',
+
+        diagnosis : data.diagnosis,
+
+        targets : data.targets,
+
+        oxygen : data.oxygen,
+
+        monitoring : data.monitoring,
+
+        abg : data.abg,
+
+        pocus : data.pocus,
+
+        activeDrugs : [...activeDrugs],
+
+        activeMedications : [...activeMedications]
+
+    });
+
+    localStorage.setItem(
+        'icuPatients',
+        JSON.stringify(database)
+    );
+
+    renderPatientList();
+
+    showToast(
+        'Ward round saved successfully!',
+        'emerald'
+    );
+
+}
+
+
 
     // 2. EXPORT FUNCTION (Downloads Text Report)
     function exportReport() {
