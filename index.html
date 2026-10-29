@@ -2483,6 +2483,7 @@ function saveCalculation(){
 
 function renderPatientList(){
 
+
     const database =
       JSON.parse(
         localStorage.getItem('icuPatients') || '{}'
@@ -2491,34 +2492,35 @@ function renderPatientList(){
     const box =
       document.getElementById('patient-list');
 
+    if(!box) return;
+
     box.innerHTML = '';
 
     Object.keys(database).forEach(id=>{
 
-        const patient =
-          database[id];
+        const p = database[id];
 
         box.innerHTML += `
 
         <button
           onclick="loadPatient('${id}')"
-          class="w-full text-left bg-slate-900 border border-slate-700 rounded-lg p-3 mb-2">
+          class="w-full text-left bg-slate-900 border border-slate-700 rounded-lg p-3 hover:border-sky-500">
 
           <div class="font-semibold text-sky-300">
 
-             ${patient.patientInfo.name}
+            ${p.patientInfo.name}
 
           </div>
 
           <div class="text-xs text-slate-400">
 
-             ${id}
+            ${id}
 
           </div>
 
           <div class="text-xs text-emerald-400">
 
-             ${patient.rounds.length} ward rounds
+            ${p.rounds.length} Round(s)
 
           </div>
 
@@ -2529,6 +2531,119 @@ function renderPatientList(){
     });
 
 }
+
+          function loadPatient(patientId){
+
+    const database =
+      JSON.parse(
+        localStorage.getItem('icuPatients') || '{}'
+      );
+
+    const patient =
+      database[patientId];
+
+    if(!patient) return;
+
+    const latest =
+      patient.rounds[
+        patient.rounds.length - 1
+      ];
+
+    document.getElementById('pt-id').value =
+      patient.patientInfo.bed;
+
+    document.getElementById('pt-name').value =
+      patient.patientInfo.name;
+
+    document.getElementById('pt-age').value =
+      patient.patientInfo.age;
+
+    document.getElementById('pt-weight').value =
+      patient.patientInfo.weight;
+
+    document.getElementById('pt-sex').value =
+      patient.patientInfo.sex;
+
+    document.getElementById('hr').value =
+      latest.monitoring.hr || '';
+
+    document.getElementById('rr').value =
+      latest.monitoring.rr || '';
+
+    document.getElementById('sbp').value =
+      latest.monitoring.sbp || '';
+
+    document.getElementById('dbp').value =
+      latest.monitoring.dbp || '';
+
+    document.getElementById('spo2').value =
+      latest.monitoring.spo2 || '';
+
+    document.getElementById('fio2').value =
+      latest.monitoring.fio2 || '';
+
+    calculateMonitoring();
+
+    showPatientHistory(patientId);
+
+}
+function showPatientHistory(patientId){
+
+    const database =
+      JSON.parse(
+        localStorage.getItem('icuPatients') || '{}'
+      );
+
+    const rounds =
+      database[patientId].rounds;
+
+    const history =
+      document.getElementById('patient-history');
+
+    history.innerHTML = '';
+
+    rounds.slice().reverse().forEach(round=>{
+
+        history.innerHTML += `
+
+        <div class="bg-slate-900 border border-slate-700 rounded-lg p-3 mb-2">
+
+          <div class="text-sky-300 font-semibold">
+
+            ${round.timestamp}
+
+          </div>
+
+          <div class="text-amber-300 text-xs">
+
+            ${round.reviewer || 'Unknown Physician'}
+
+          </div>
+
+          <div class="text-xs text-slate-400 mt-1">
+
+            MAP:
+            ${round.monitoring.map}
+
+            |
+            ROX:
+            ${round.monitoring.rox}
+
+            |
+            PF:
+            ${round.monitoring.pf}
+
+          </div>
+
+        </div>
+
+        `;
+
+    });
+
+}
+
+
 
 
 
