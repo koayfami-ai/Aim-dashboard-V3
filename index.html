@@ -2187,12 +2187,14 @@ function getSummaryData(){
 
     patient:{
       name: document.getElementById('pt-name').value,
+      reviewer: document.getElementById('physician-name').value,
       bed: document.getElementById('pt-id').value,
       weight: document.getElementById('pt-weight').value,
       age: document.getElementById('pt-age').value,
       sex: document.getElementById('pt-sex').value,
       crcl: document.getElementById('cg-crcl-val').textContent
     },
+    
 
     diagnosis:{
       problems: document.getElementById('problem-list').value,
@@ -2246,8 +2248,6 @@ function getSummaryData(){
       impression: document.getElementById('pocus-impression').value
     },
     
-reviewer :
-    document.getElementById('physician-name').value,
 
     activeDrugs,
     activeMedications,
