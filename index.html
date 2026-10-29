@@ -2689,6 +2689,162 @@ function showPatientHistory(patientId){
     });
 
 }
+
+    function exportPatientHistory(){
+
+    const patientId =
+      document.getElementById('pt-id').value;
+
+    if(!patientId){
+
+        alert('No patient selected');
+        return;
+
+    }
+
+    const database =
+      JSON.parse(
+        localStorage.getItem('icuPatients') || '{}'
+      );
+
+    const patient =
+      database[patientId];
+
+    if(!patient){
+
+        alert('Patient not found');
+        return;
+
+    }
+
+    const rows = [[
+
+      'Timestamp',
+      'Physician',
+
+      'Problems',
+      'Comorbidities',
+
+      'Target MAP',
+      'Target SpO2',
+
+      'O2 Support',
+      'Highest FiO2',
+
+      'HR',
+      'RR',
+      'SBP',
+      'DBP',
+
+      'MAP',
+      'Shock Index',
+      'ROX Score',
+      'PF Ratio',
+
+      'pH',
+      'PaO2',
+      'PaCO2',
+      'HCO3',
+      'Base Excess',
+
+      'LUS Admission',
+      'LUS Ward',
+      'LUS Discharge',
+
+      'IVC Diameter',
+      'IVC Collapse',
+
+      'Delta VTI',
+      'Delta SV',
+      'Delta CO',
+
+      'POCUS Impression'
+
+    ]];
+
+    patient.rounds.forEach(round=>{
+
+        rows.push([
+
+          round.timestamp || '',
+
+          round.reviewer || '',
+
+          round.diagnosis?.problems || '',
+          round.diagnosis?.comorbids || '',
+
+          round.targets?.map || '',
+          round.targets?.spo2 || '',
+
+          round.oxygen?.support || '',
+          round.oxygen?.fio2 || '',
+
+          round.monitoring?.hr || '',
+          round.monitoring?.rr || '',
+          round.monitoring?.sbp || '',
+          round.monitoring?.dbp || '',
+
+          round.monitoring?.map || '',
+          round.monitoring?.shockIndex || '',
+          round.monitoring?.rox || '',
+          round.monitoring?.pf || '',
+
+          round.abg?.ph || '',
+          round.abg?.pao2 || '',
+          round.abg?.paco2 || '',
+          round.abg?.hco3 || '',
+          round.abg?.be || '',
+
+          round.pocus?.lung?.admission || '',
+          round.pocus?.lung?.ward || '',
+          round.pocus?.lung?.discharge || '',
+
+          round.pocus?.ivcDiameter || '',
+          round.pocus?.ivcCollapse || '',
+
+          round.pocus?.deltaVTI || '',
+          round.pocus?.deltaSV || '',
+          round.pocus?.deltaCO || '',
+
+          round.pocus?.impression || ''
+
+        ]);
+
+    });
+
+    const csv =
+      rows.map(row =>
+        row.map(v =>
+          `"${String(v ?? '').replace(/"/g,'""')}"`
+        ).join(',')
+      ).join('\n');
+
+    const blob =
+      new Blob(
+        [csv],
+        { type:'text/csv;charset=utf-8;' }
+      );
+
+    const a =
+      document.createElement('a');
+
+    a.href =
+      URL.createObjectURL(blob);
+
+    a.download =
+      `${patientId}_History.csv`;
+
+    a.click();
+
+    URL.revokeObjectURL(a.href);
+
+    showToast(
+      'Patient history exported',
+      'sky'
+    );
+
+}
+
 function clearCurrentPatient(){
 
     document.getElementById('pt-name').value = '';
