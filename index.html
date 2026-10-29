@@ -2725,6 +2725,54 @@ function clearCurrentPatient(){
     );
 
 }
+function deleteCurrentPatient(){
+
+    const patientId =
+        document.getElementById('pt-id').value;
+
+    if(!patientId){
+
+        alert('No patient selected');
+
+        return;
+
+    }
+
+    if(
+      !confirm(
+        `Delete ${patientId} and all ward round history?`
+      )
+    ){
+        return;
+    }
+
+    const database =
+        JSON.parse(
+          localStorage.getItem('icuPatients') || '{}'
+        );
+
+    delete database[patientId];
+
+    localStorage.setItem(
+        'icuPatients',
+        JSON.stringify(database)
+    );
+
+    clearCurrentPatient();
+
+    renderPatientList();
+
+    document.getElementById(
+      'patient-history'
+    ).innerHTML =
+    '<p class="text-xs text-slate-400">No patient selected</p>';
+
+    showToast(
+      'Patient deleted',
+      'rose'
+    );
+
+}
 
 
 
