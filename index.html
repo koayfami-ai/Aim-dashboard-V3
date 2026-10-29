@@ -2477,6 +2477,54 @@ function saveCalculation(){
 
 }
 
+function renderPatientList(){
+
+    const database =
+      JSON.parse(
+        localStorage.getItem('icuPatients') || '{}'
+      );
+
+    const box =
+      document.getElementById('patient-list');
+
+    box.innerHTML = '';
+
+    Object.keys(database).forEach(id=>{
+
+        const patient =
+          database[id];
+
+        box.innerHTML += `
+
+        <button
+          onclick="loadPatient('${id}')"
+          class="w-full text-left bg-slate-900 border border-slate-700 rounded-lg p-3 mb-2">
+
+          <div class="font-semibold text-sky-300">
+
+             ${patient.patientInfo.name}
+
+          </div>
+
+          <div class="text-xs text-slate-400">
+
+             ${id}
+
+          </div>
+
+          <div class="text-xs text-emerald-400">
+
+             ${patient.rounds.length} ward rounds
+
+          </div>
+
+        </button>
+
+        `;
+
+    });
+
+}
 
 
 
