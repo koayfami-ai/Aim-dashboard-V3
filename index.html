@@ -220,6 +220,95 @@ PDF
   </textarea>
 
 </div>
+<div class="grid grid-cols-2 gap-3 mt-3">
+
+  <div>
+    <label class="block text-xs font-medium text-slate-300 mb-1">
+      CRT (seconds)
+    </label>
+
+    <input
+      id="crt"
+      type="number"
+      step="0.1"
+      class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2">
+  </div>
+
+  <div>
+    <label class="block text-xs font-medium text-slate-300 mb-1">
+      Periphery
+    </label>
+
+    <select
+      id="periphery"
+      class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2">
+
+      <option>Warm</option>
+      <option>Cold</option>
+
+    </select>
+  </div>
+
+</div>
+<div class="mt-3">
+
+  <label class="block text-xs font-medium text-slate-300 mb-1">
+    Mental Status
+  </label>
+
+  <textarea
+     id="mental-status"
+     rows="2"
+     placeholder="Alert / Drowsy / GCS..."
+     class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2">
+  </textarea>
+
+</div>
+
+
+<div class="grid grid-cols-2 gap-3 mt-3">
+
+  <input id="lactate" placeholder="Lactate">
+  <input id="dxt" placeholder="DXT">
+
+</div>
+
+      
+<div class="grid grid-cols-2 gap-3 mt-3">
+
+  <input id="ketone" placeholder="Ketone">
+
+</div>
+            
+<div class="mt-3">
+
+  <label class="block text-xs font-medium text-slate-300 mb-1">
+    ECG
+  </label>
+
+  <textarea
+      id="ecg"
+      rows="2"
+      placeholder="AF with RVR, HR 140 bpm"
+      class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100">
+  </textarea>
+
+</div>
+
+ <div class="grid grid-cols-2 gap-3 mt-3">
+
+  <div>
+     <label>I/O (24h)</label>
+     <input id="io-balance">
+  </div>
+
+  <div>
+     <label>Urine Output (mL/day)</label>
+     <input id="urine-output">
+  </div>
+
+</div>
+ 
 
 <!-- TARGETS -->
 
