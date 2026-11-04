@@ -269,17 +269,11 @@ PDF
 <div class="grid grid-cols-2 gap-3 mt-3">
 
   <input id="lactate" placeholder="Lactate">
-  <input id="dxt" placeholder="DXT">
+  
 
 </div>
 
-      
-<div class="grid grid-cols-2 gap-3 mt-3">
-
-  <input id="ketone" placeholder="Ketone">
-
-</div>
-            
+    
 <div class="mt-3">
 
   <label class="block text-xs font-medium text-slate-300 mb-1">
@@ -701,6 +695,64 @@ PDF
 
 </div>
 
+<!-- GLYCAEMIC MANAGEMENT -->
+
+<div class="mb-5">
+
+  <h4 class="text-xs font-bold text-orange-300 mb-3">
+    Glycaemic Management
+  </h4>
+
+  <div class="grid grid-cols-2 gap-3">
+
+    <div>
+
+      <label class="block text-xs text-slate-400 mb-1">
+        Insulin Type
+      </label>
+
+      <input
+          id="insulin-type"
+          placeholder="Actrapid Infusion"
+          class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2">
+
+    </div>
+
+    <div>
+
+      <label class="block text-xs text-slate-400 mb-1">
+        Rate
+      </label>
+
+      <input
+          id="insulin-rate"
+          placeholder="2 units/hr"
+          class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2">
+
+    </div>
+
+  </div>
+
+  <div class="mt-3">
+
+    <label class="block text-xs text-slate-400 mb-1">
+      Remarks
+    </label>
+
+    <textarea
+        id="insulin-remarks"
+        rows="2"
+        placeholder="Target DXT 6-10 mmol/L"
+        class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2">
+    </textarea>
+
+  </div>
+
+</div>
+
+
+
+  
        
 <!-- CARD 3 : POCUS MONITORING -->
 
